@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
+  base: '/oshin-cruis-suits-booking-/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
@@ -13,8 +14,6 @@ export default defineConfig({
     cssTarget: 'chrome100',
     rollupOptions: {
       output: {
-        // Rolldown's chunking API. The two animation libraries are stable and
-        // cacheable, so they split away from app code that changes often.
         codeSplitting: {
           groups: [
             { name: 'motion', test: /[\\/]node_modules[\\/]motion[\\/]/ },

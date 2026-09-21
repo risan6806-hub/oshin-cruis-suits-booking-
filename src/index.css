@@ -55,144 +55,151 @@
   color-scheme: dark;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+/* Reset lives in @layer base and the .u-* classes in @layer components:
+   unlayered rules out-rank every Tailwind utility, so a bare `margin: 0`
+   here would silently kill `mt-*` on every heading and paragraph. */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ink);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    font-size: var(--step-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  /* Lenis drives scroll position; it must not fight native smooth behaviour. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--color-champagne);
+    color: var(--color-ink);
+  }
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
+@layer components {
+  /* ---------------------------- typography ---------------------------- */
 
-body {
-  margin: 0;
-  background: var(--color-ink);
-  color: var(--color-ivory);
-  font-family: var(--font-sans);
-  font-size: var(--step-body);
-  font-weight: 300;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
-}
+  .u-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
 
-/* Lenis drives scroll position; it must not fight native smooth behaviour. */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
+  .u-label {
+    font-size: var(--step-label);
+    font-weight: 400;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
 
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote {
-  margin: 0;
-}
+  .u-lead {
+    font-size: var(--step-lead);
+    line-height: 1.55;
+    font-weight: 300;
+    color: color-mix(in oklab, var(--color-ivory) 74%, transparent);
+  }
 
-img,
-video {
-  display: block;
-  max-width: 100%;
-}
+  .u-rule {
+    height: 1px;
+    background: var(--line);
+    border: 0;
+  }
 
-button,
-input,
-select {
-  font: inherit;
-  color: inherit;
-}
+  /* Page gutter — one value, used everywhere, so the grid never drifts. */
+  .u-shell {
+    padding-inline: var(--gut);
+    margin-inline: auto;
+    max-width: 108rem;
+    width: 100%;
+  }
 
-::selection {
-  background: var(--color-champagne);
-  color: var(--color-ink);
-}
+  /* ------------------------- focus + a11y ------------------------- */
 
-/* ---------------------------- typography ---------------------------- */
+  :focus-visible {
+    outline: 1px solid var(--color-champagne);
+    outline-offset: 4px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 
-.u-display {
-  font-family: var(--font-display);
-  font-weight: 300;
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-}
+  .u-skip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 300;
+    transform: translateY(-120%);
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    padding: 0.85rem 1.4rem;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .u-skip:focus {
+    transform: translateY(0);
+  }
 
-.u-label {
-  font-size: var(--step-label);
-  font-weight: 400;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-.u-lead {
-  font-size: var(--step-lead);
-  line-height: 1.55;
-  font-weight: 300;
-  color: color-mix(in oklab, var(--color-ivory) 74%, transparent);
-}
-
-.u-rule {
-  height: 1px;
-  background: var(--line);
-  border: 0;
-}
-
-/* Page gutter — one value, used everywhere, so the grid never drifts. */
-.u-shell {
-  padding-inline: var(--gut);
-  margin-inline: auto;
-  max-width: 108rem;
-  width: 100%;
-}
-
-/* ------------------------- focus + a11y ------------------------- */
-
-:focus-visible {
-  outline: 1px solid var(--color-champagne);
-  outline-offset: 4px;
-}
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.u-skip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 300;
-  transform: translateY(-120%);
-  background: var(--color-ivory);
-  color: var(--color-ink);
-  padding: 0.85rem 1.4rem;
-  letter-spacing: 0.2em;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  transition: transform 0.3s var(--ease-out);
-}
-.u-skip:focus {
-  transform: translateY(0);
-}
-
-.u-sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+  .u-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* --------------------- reduced motion --------------------- */
