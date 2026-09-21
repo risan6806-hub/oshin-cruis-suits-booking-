@@ -53,12 +53,22 @@ function Pinned() {
           </motion.div>
         </AnimatePresence>
 
+        {/* Two scrims. The horizontal one carries the headline, the vertical
+            one keeps the copy column legible over bright interiors. */}
         <div
           className="absolute inset-0 -z-10"
           aria-hidden
           style={{
             background:
-              'linear-gradient(to right, rgba(4,16,22,0.92) 0%, rgba(4,16,22,0.62) 45%, rgba(4,16,22,0.28) 100%)',
+              'linear-gradient(to right, rgba(4,16,22,0.95) 0%, rgba(4,16,22,0.78) 50%, rgba(4,16,22,0.55) 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 -z-10"
+          aria-hidden
+          style={{
+            background:
+              'linear-gradient(to top, rgba(4,16,22,0.82) 0%, rgba(4,16,22,0.1) 55%, rgba(4,16,22,0.5) 100%)',
           }}
         />
 

@@ -19,7 +19,7 @@ export function Footer({ onBook }: { onBook: () => void }) {
           <div className="grid gap-12 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-5">
               <p className="u-label text-[0.9rem] tracking-[0.5em] text-ivory">OSHIN</p>
-              <p className="mt-6 max-w-[34ch] text-ivory/45">
+              <p className="mt-7 max-w-[34ch] text-ivory/45">
                 Private luxury at sea. Fourteen suites, twelve routes, one crew
                 who have sailed together since 2014.
               </p>

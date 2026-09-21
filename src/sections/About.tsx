@@ -15,7 +15,7 @@ export function About() {
           <div className="md:sticky md:top-[calc(var(--nav-h)+2.5rem)]">
             <Figure
               name="service-detail"
-              alt="A table laid on a private terrace, morning light"
+              alt="A cocktail served on a weathered wooden table"
               sizes="(min-width: 768px) 40vw, 90vw"
               className="aspect-4/5 w-full"
             />
