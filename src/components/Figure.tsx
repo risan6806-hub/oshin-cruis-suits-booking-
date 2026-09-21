@@ -41,8 +41,13 @@ export function Figure({
       }}
     >
       <img
-        src={`/img/${name}-${widest}.webp`}
-        srcSet={asset.widths.map((w) => `/img/${name}-${w}.webp ${w}w`).join(', ')}
+        src={`${import.meta.env.BASE_URL}img/${name}-${widest}.webp`}
+        srcSet={asset.widths
+          .map(
+            (w) =>
+              `${import.meta.env.BASE_URL}img/${name}-${w}.webp ${w}w`
+          )
+          .join(', ')}
         sizes={sizes}
         alt={decorative ? '' : alt}
         aria-hidden={decorative || undefined}
@@ -52,9 +57,8 @@ export function Figure({
         decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setLoaded(true)}
-        className={`h-full w-full object-cover transition-opacity duration-700 ease-out ${
-          loaded ? 'opacity-100' : 'opacity-0'
-        } ${imgClassName}`}
+        className={`h-full w-full object-cover transition-opacity duration-700 ease-out ${loaded ? 'opacity-100' : 'opacity-0'
+          } ${imgClassName}`}
       />
     </div>
   );
