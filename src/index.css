@@ -1,0 +1,239 @@
+@import 'tailwindcss';
+@import './styles/fonts.css';
+
+/* ------------------------------------------------------------------
+   OSHIN design system
+   Palette, type scale and motion constants. Every surface in the site
+   resolves back to these tokens — nothing hardcodes a colour.
+------------------------------------------------------------------ */
+@theme {
+  --color-ink: #071a23;
+  --color-midnight: #08131d;
+  --color-abyss: #041016;
+  --color-ivory: #f4f0e8;
+  --color-sand: #d5c4a4;
+  --color-champagne: #b99a67;
+  --color-mist: #a9c0c3;
+
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Jost', 'Futura', 'Century Gothic', system-ui, sans-serif;
+
+  --breakpoint-xs: 26rem;
+  --breakpoint-3xl: 100rem;
+
+  /* Overrides Tailwind's own --ease-out token on purpose: the `ease-out`
+     utility should be the house curve everywhere, not the framework default. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  /* Fluid editorial type scale — every size interpolates across viewports
+     so no single breakpoint is "the" correct one. */
+  --step-label: clamp(0.625rem, 0.58rem + 0.2vw, 0.75rem);
+  --step-body: clamp(0.9375rem, 0.9rem + 0.25vw, 1.0625rem);
+  --step-lead: clamp(1.0625rem, 0.98rem + 0.45vw, 1.375rem);
+  --step-h3: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --step-h2: clamp(2.5rem, 1.7rem + 3.6vw, 5.5rem);
+  --step-h1: clamp(3rem, 1.6rem + 6.2vw, 9rem);
+  --step-mega: clamp(4rem, 0.5rem + 15vw, 20rem);
+
+  --gut: clamp(1.25rem, 0.8rem + 2.2vw, 5rem);
+  --section-y: clamp(6rem, 4rem + 10vw, 14rem);
+
+  --line: color-mix(in oklab, var(--color-ivory) 16%, transparent);
+  --line-soft: color-mix(in oklab, var(--color-ivory) 8%, transparent);
+
+  /* Motion: expo-out for entrances (arrives and settles, never bounces),
+     a symmetric in-out for state changes. --ease-out lives in @theme above so
+     the Tailwind utility and the raw custom property stay the same curve. */
+  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-base: 0.9s;
+  --dur-slow: 1.4s;
+
+  --nav-h: clamp(4.5rem, 4rem + 1.5vw, 6rem);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* Lenis drives scroll position; it must not fight native smooth behaviour. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote {
+  margin: 0;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-champagne);
+  color: var(--color-ink);
+}
+
+/* ---------------------------- typography ---------------------------- */
+
+.u-display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.u-label {
+  font-size: var(--step-label);
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.u-lead {
+  font-size: var(--step-lead);
+  line-height: 1.55;
+  font-weight: 300;
+  color: color-mix(in oklab, var(--color-ivory) 74%, transparent);
+}
+
+.u-rule {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+/* Page gutter — one value, used everywhere, so the grid never drifts. */
+.u-shell {
+  padding-inline: var(--gut);
+  margin-inline: auto;
+  max-width: 108rem;
+  width: 100%;
+}
+
+/* ------------------------- focus + a11y ------------------------- */
+
+:focus-visible {
+  outline: 1px solid var(--color-champagne);
+  outline-offset: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.u-skip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  transform: translateY(-120%);
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  padding: 0.85rem 1.4rem;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  transition: transform 0.3s var(--ease-out);
+}
+.u-skip:focus {
+  transform: translateY(0);
+}
+
+.u-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --------------------- reduced motion --------------------- */
+/* Complex spatial transitions collapse to plain fades. Scroll-linked
+   parallax is neutralised in JS; this covers CSS-driven motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.12s !important;
+    scroll-behavior: auto !important;
+  }
+  .u-kenburns {
+    animation: none !important;
+  }
+}
+
+/* Slow cinematic drift on hero stills. */
+@keyframes u-kenburns {
+  from {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.16) translate3d(0, -1.2%, 0);
+  }
+}
+.u-kenburns {
+  animation: u-kenburns 26s var(--ease-io) infinite alternate;
+  will-change: transform;
+}
+
+/* Grain: breaks up flat gradients so large dark areas read as film,
+   not as banding. Cheap — one repeating SVG, no per-frame work. */
+.u-grain::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
